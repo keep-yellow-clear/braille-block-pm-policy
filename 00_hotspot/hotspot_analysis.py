@@ -4,11 +4,13 @@
   - 서울특별시_전동킥보드_견인_현황(25.1~6월).xlsx    월별 시트
   - 서울특별시_전동킥보드_견인_현황(25.7~12월).xlsx   월별 시트
   - 서울시 전동킥보드 주차구역 현황.csv               (cp949)
+  + data/processed/주차구역_도로명주소_법정동.csv      도로명 주소 → 법정동 (lookup_parking_dong.py, 주소정보누리집 조회)
 
 분석
   - 견인 사유(유형)에 '점자'가 들어간 건 = '점자블록 또는 교통약자 엘리베이터' 사유 견인
   - 지번(주소) 단위 반복 횟수, 법정동·자치구 단위 집계, 월별 추이
-  - 주차구역 수는 주차구역 주소에서 동 이름을 읽을 수 있는 곳만 동별로 집계
+  - 주차구역 수: 지번 주소는 주소에서, 도로명 주소는 조회 결과에서 법정동을 읽어 329곳 모두 동별 집계
+  - 주차구역 공백: 자치구별 '점자블록 견인 비중 vs 주차구역 비중', 주차구역 0곳 법정동에 몰린 견인
 
 출력
   00_hotspot/figures/fig1_자치구별_비교.png
@@ -16,6 +18,8 @@
   00_hotspot/figures/fig3_반복지번_Top30_월별.png
   00_hotspot/figures/fig4_지번_집중도.png
   00_hotspot/figures/fig5_월별_추이.png
+  00_hotspot/figures/fig6_주차구역공백_자치구.png
+  00_hotspot/figures/fig7_주차구역공백_법정동.png
   00_hotspot/results/hotspot_summary.xlsx        (그림에 쓴 표 전부)
 
 실행: python 00_hotspot/hotspot_analysis.py
@@ -41,6 +45,7 @@ RAW_TOW_2025 = [
     "서울특별시_전동킥보드_견인_현황(25.7~12월).xlsx",
 ]
 RAW_PARKING = "서울시 전동킥보드 주차구역 현황.csv"
+LOOKUP = HERE.parent / "data" / "processed" / "주차구역_도로명주소_법정동.csv"   # lookup_parking_dong.py 결과
 TOW_COLS = ["번호", "신고일", "구정보", "주소", "유형", "조치일"]
 YEAR = 2025
 LOW_TOW_GU = 300            # 연 견인 300건 미만 구 = 견인 제도가 사실상 운영되지 않는 구
@@ -87,8 +92,9 @@ def load_tow() -> pd.DataFrame:
     return df
 
 
-def load_parking() -> pd.DataFrame:
-    """주차구역 현황. 주소 첫 단어가 '…동'/'…가'이면 동 이름으로 읽는다 ('신문로 2가' → '신문로2가')."""
+def load_parking(use_lookup: bool = True) -> pd.DataFrame:
+    """주차구역 현황. 주소 첫 단어가 '…동'/'…가'이면 동 이름으로 읽는다 ('신문로 2가' → '신문로2가').
+    도로명 주소는 lookup_parking_dong.py 가 만든 data/processed/주차구역_도로명주소_법정동.csv 로 법정동을 채운다."""
     p = None
     for enc in ("cp949", "utf-8-sig"):
         try:
@@ -101,9 +107,18 @@ def load_parking() -> pd.DataFrame:
             .apply(lambda s: s.strip()))
     addr = addr.str.replace(r"^\S+구\s+", "", regex=True)               # 주소 앞에 구 이름이 붙은 경우
     addr = addr.str.replace(r"^(\S+)\s+(\d+가)", r"\1\2", regex=True)    # '신문로 2가' → '신문로2가'
+    addr = addr.str.replace(r"^(\S+?(?:동|가))(\d)", r"\1 \2", regex=True)  # '창동723-11' → '창동 723-11'
     first = addr.str.split(" ").str[0]
     p["동"] = first.where(first.str.match(r".+(동|가)$"), np.nan)
     p["동"] = p["동"].str.replace(r"\d+동$", "동", regex=True)          # 행정동 표기(봉천1동 등) → 법정동
+    p["동출처"] = np.where(p["동"].notna(), "지번 주소", None)
+    if use_lookup and LOOKUP.exists():
+        lk = pd.read_csv(LOOKUP, encoding="utf-8-sig").dropna(subset=["법정동"])
+        key = lk.set_index(["구", "주소"])["법정동"]
+        fill = pd.Series([key.get((g, str(a).strip())) for g, a in zip(p["구"], p["주소"])], index=p.index)
+        need = p["동"].isna() & fill.notna()
+        p.loc[need, "동"] = fill[need]
+        p.loc[need, "동출처"] = "도로명 주소 조회"
     return p
 
 
@@ -150,9 +165,25 @@ def build_tables(tow: pd.DataFrame, park: pd.DataFrame) -> dict:
         "상위 10% 지번이 차지한 견인 비중": n.iloc[:int(round(len(n) * .1))].sum() / n.sum(),
         "상위 20개 동이 차지한 견인 비중": dong["점자블록견인"].iloc[:20].sum() / len(br),
         "주차구역 수(전체)": len(park),
-        "주차구역 중 동 이름을 읽은 곳": int(park["동"].notna().sum()),
+        "주차구역 중 법정동 배정(지번 주소)": int((park["동출처"] == "지번 주소").sum()),
+        "주차구역 중 법정동 배정(도로명 주소 조회)": int((park["동출처"] == "도로명 주소 조회").sum()),
     }, name="값")
-    return dict(kpi=kpi, gu=gu, dong=dong, addr=addr, months=months, monthly=monthly)
+    # 주차구역 공백: 견인이 운영되는 구만 (운영 안 되는 구는 0건이 '위반 없음'이 아님)
+    act = gu[gu["견인운영"]].copy()
+    act["점자블록견인_비중"] = act["점자블록견인"] / act["점자블록견인"].sum()
+    act["주차구역_비중"] = act["주차구역"] / act["주차구역"].sum()
+    act["비중차(견인-주차)"] = act["점자블록견인_비중"] - act["주차구역_비중"]
+    act["주차구역1곳당_점자블록견인"] = act["점자블록견인"] / act["주차구역"].replace(0, np.nan)
+    gap_gu = act.sort_values("비중차(견인-주차)", ascending=False)
+
+    bins = pd.cut(dong["주차구역"], [-1, 0, 2, np.inf], labels=["0곳", "1–2곳", "3곳 이상"])
+    gap_bucket = dong.groupby(bins, observed=False).agg(동수=("점자블록견인", "size"), 점자블록견인=("점자블록견인", "sum"))
+    gap_bucket["견인비중"] = gap_bucket["점자블록견인"] / gap_bucket["점자블록견인"].sum()
+    gap_dong = dong[dong["주차구역"] == 0].sort_values("점자블록견인", ascending=False)
+
+    kpi["주차구역 0곳 동에서 난 점자블록 견인 비중"] = gap_bucket.loc["0곳", "견인비중"]
+    return dict(kpi=kpi, gu=gu, dong=dong, addr=addr, months=months, monthly=monthly,
+                gap_gu=gap_gu, gap_bucket=gap_bucket, gap_dong=gap_dong)
 
 
 # ---------------------------------------------------------------- 그림
@@ -209,7 +240,7 @@ def fig_dong(dong: pd.DataFrame, top=20):
     share = dong["점자블록견인"].iloc[:top].sum() / dong["점자블록견인"].sum()
     fig.suptitle(f"점자블록 사유 견인이 많은 법정동 Top {top} — 전체의 {share:.0%}", x=.06, ha="left", fontsize=14)
     zero = int((dong["주차구역"].iloc[:top] == 0).sum())
-    fig.text(.06, .925, f"오른쪽: 같은 동 안의 주차구역 수 (공개 데이터에서 동 이름을 읽을 수 있는 곳만). Top {top} 중 {zero}개 동은 주차구역 0곳",
+    fig.text(.06, .925, f"오른쪽: 같은 동 안의 PM 주차구역 수 (329곳 모두 법정동 배정). Top {top} 중 {zero}개 동은 주차구역 0곳",
              fontsize=9.5, color="#6b6a66")
     fig.subplots_adjust(left=.17, right=.97, top=.9, bottom=.09)
     fig.savefig(FIG_DIR / "fig2_법정동_Top20.png"); plt.close(fig)
@@ -291,6 +322,67 @@ def fig_monthly(monthly: pd.DataFrame):
     fig.savefig(FIG_DIR / "fig5_월별_추이.png"); plt.close(fig)
 
 
+def fig_gap_gu(gap: pd.DataFrame):
+    """자치구별 점자블록 견인 비중 vs 주차구역 비중 (견인 운영 구, 비중 차이 큰 순)."""
+    g = gap.iloc[::-1]
+    y = np.arange(len(g))
+    h = .38
+    fig, ax = plt.subplots(figsize=(11, 7.6))
+    ax.barh(y + h / 2, g["점자블록견인_비중"], height=h, color=C_BR, label="서울 점자블록 사유 견인 중 그 구의 비중")
+    ax.barh(y - h / 2, g["주차구역_비중"], height=h, color=C_PARK, label="서울 PM 주차구역 중 그 구의 비중")
+    xmax = max(g["점자블록견인_비중"].max(), g["주차구역_비중"].max())
+    for yi, (_, r) in zip(y, g.iterrows()):
+        ax.text(r["점자블록견인_비중"], yi + h / 2, f" {r['점자블록견인_비중']:.1%}", va="center", fontsize=8.5)
+        ax.text(r["주차구역_비중"], yi - h / 2, f" {r['주차구역_비중']:.1%}", va="center", fontsize=8.5)
+        per = r["주차구역1곳당_점자블록견인"]
+        txt = "주차구역 0곳" if pd.isna(per) else (f"{per:.0f}건" if per >= 10 else f"{per:.1f}건" if per >= .1 else f"{per:.2f}건")
+        ax.text(xmax * 1.28, yi, txt, va="center", ha="right", fontsize=9,
+                color="#b23b1a" if (pd.isna(per) or per >= 20) else "#52514e")
+    ax.text(xmax * 1.28, len(g) - .3, "주차구역 1곳당\n점자블록 견인", ha="right", va="bottom", fontsize=8.5, color="#6b6a66")
+    ax.set_yticks(y); ax.set_yticklabels(g.index)
+    ax.xaxis.set_major_formatter(ticker.PercentFormatter(1, decimals=0))
+    ax.set_xlim(0, xmax * 1.3); ax.grid(axis="x", color="#ecebe7", lw=.8); ax.set_axisbelow(True)
+    ax.legend(frameon=False, loc="lower left", bbox_to_anchor=(0, 1.0), ncol=2, fontsize=9.5)
+    top2 = gap.iloc[:2]
+    fig.suptitle(f"주차구역 공백 — {'·'.join(top2.index)}는 점자블록 견인의 {top2['점자블록견인_비중'].sum():.0%}, "
+                 f"주차구역은 {top2['주차구역_비중'].sum():.0%}", x=.06, ha="left", fontsize=14)
+    fig.text(.06, .925, f"2025년 견인 {LOW_TOW_GU}건 이상 {len(g)}개 구 기준. 위로 갈수록 견인 비중에 비해 주차구역이 모자란 구. "
+             "주차구역 수는 공개 데이터 전체(구 단위)", fontsize=9.5, color="#6b6a66")
+    fig.subplots_adjust(left=.1, right=.97, top=.86, bottom=.06)
+    fig.savefig(FIG_DIR / "fig6_주차구역공백_자치구.png"); plt.close(fig)
+
+
+def fig_gap_dong(gap_dong: pd.DataFrame, bucket: pd.DataFrame, top=15):
+    fig, (a1, a2) = plt.subplots(1, 2, figsize=(12, 6.6), gridspec_kw={"width_ratios": [1, 1.6], "wspace": .35})
+    # (a) 동의 주차구역 수별 점자블록 견인 비중
+    b = bucket["견인비중"]
+    x = np.arange(len(b))
+    a1.bar(x, b.values, color=[C_PARK, "#f3b08f", C_MUTED], width=.65)
+    for xi, (k, r) in zip(x, bucket.iterrows()):
+        a1.text(xi, r["견인비중"], f"{r['견인비중']:.0%}\n({int(r['점자블록견인']):,}건·{int(r['동수'])}개 동)",
+                ha="center", va="bottom", fontsize=9)
+    a1.set_xticks(x); a1.set_xticklabels([f"주차구역\n{k}" for k in b.index])
+    a1.yaxis.set_major_formatter(ticker.PercentFormatter(1, decimals=0)); a1.set_ylim(0, b.max() * 1.3)
+    a1.grid(axis="y", color="#ecebe7", lw=.8); a1.set_axisbelow(True)
+    title(a1, "동 안 주차구역 수별 점자블록 견인", "점자블록 견인이 1건 이상 있었던 법정동 기준")
+    # (b) 주차구역 0곳인데 견인 많은 동
+    d = gap_dong.iloc[:top].iloc[::-1]
+    y = np.arange(len(d))
+    a2.barh(y, d["점자블록견인"], color=C_PARK, height=.7)
+    for yi, (idx, r) in zip(y, d.iterrows()):
+        a2.text(r["점자블록견인"], yi, f" {r['점자블록견인']}건 (전체 견인 {r['전체견인']:,})", va="center", fontsize=8.5)
+    a2.set_yticks(y); a2.set_yticklabels([f"{g} {n}" for g, n in d.index])
+    a2.set_xlim(0, d["점자블록견인"].max() * 1.6); a2.set_xlabel("점자블록 사유 견인(건)")
+    a2.grid(axis="x", color="#ecebe7", lw=.8); a2.set_axisbelow(True)
+    title(a2, f"주차구역이 한 곳도 없는 동 Top {top}", "신설 주차구역 우선 검토 대상")
+    fig.suptitle(f"점자블록 견인의 {bucket.loc['0곳', '견인비중']:.0%}가 PM 주차구역이 한 곳도 없는 동에서 일어났다 (2025)",
+                 x=.06, ha="left", fontsize=14)
+    fig.text(.06, .925, "주차구역 329곳 모두 법정동 배정 (지번 주소는 주소에서, 도로명 주소는 주소정보누리집 조회로)",
+             fontsize=9.5, color="#6b6a66")
+    fig.subplots_adjust(left=.06, right=.97, top=.78, bottom=.1)
+    fig.savefig(FIG_DIR / "fig7_주차구역공백_법정동.png"); plt.close(fig)
+
+
 # ---------------------------------------------------------------- 실행
 if __name__ == "__main__":
     tow, park = load_tow(), load_parking()
@@ -301,6 +393,8 @@ if __name__ == "__main__":
     fig_top_addr(T["addr"], T["months"])
     fig_concentration(T["addr"], T["kpi"])
     fig_monthly(T["monthly"])
+    fig_gap_gu(T["gap_gu"])
+    fig_gap_dong(T["gap_dong"], T["gap_bucket"])
 
     with pd.ExcelWriter(RES_DIR / "hotspot_summary.xlsx") as w:
         T["kpi"].to_frame().to_excel(w, sheet_name="핵심수치")
@@ -310,6 +404,9 @@ if __name__ == "__main__":
         top.assign(첫견인=top["첫견인"].dt.date, 마지막견인=top["마지막견인"].dt.date) \
            .to_excel(w, sheet_name="반복지번_Top30")
         T["monthly"].to_excel(w, sheet_name="월별")
+        T["gap_gu"].to_excel(w, sheet_name="주차구역공백_자치구")
+        T["gap_bucket"].to_excel(w, sheet_name="주차구역공백_동구간")
+        T["gap_dong"].reset_index().to_excel(w, sheet_name="주차구역0곳_동", index=False)
 
     k = T["kpi"]
     for i, v in k.items():
