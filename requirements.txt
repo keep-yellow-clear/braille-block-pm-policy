@@ -1,0 +1,7 @@
+pandas>=2.0
+numpy>=1.24
+openpyxl>=3.1
+matplotlib>=3.7
+lifelines>=0.27     # 01 생존분석
+statsmodels>=0.14   # 00 단속 캘린더 음이항 회귀
+holidays>=0.40      # 00 단속 캘린더 공휴일
