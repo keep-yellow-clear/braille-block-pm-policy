@@ -134,12 +134,11 @@ $$
 ### 7-2. 학술 논문
 
 1. 신고포상금제도의 특성이 정책성과에 미치는 영향. 『한국정책학회보』 29(1), 2020. [KCI](https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART002576344)
-2. 김도윤·나태준. 신고포상금제도를 통한 쓰레기 불법투기 위험 극복 효과의 분석. 『한국위기관리논집』 11(5), 2015. [KCI](https://journal.kci.go.kr/cemtp/archive/articlePdf?artiId=ART001997305)
-3. 성시경·이현국. 과태료 결정요인에 관한 탐색적 연구: 서울시 자치구 주정차위반 과태료. 『사회과학연구』 26(1), 2015. [DBpia](https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE06094022)
+2. 김도윤, 나태준. 신고포상금제도를 통한 쓰레기 불법투기 위험 극복 효과의 분석. 『한국위기관리논집』 11(5), 2015. [KCI](https://journal.kci.go.kr/cemtp/archive/articlePdf?artiId=ART001997305)
+3. 성시경, 이현국. 과태료 결정요인에 관한 탐색적 연구: 서울시 자치구 주정차위반 과태료. 『사회과학연구』 26(1), 2015. [DBpia](https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE06094022)
 4. 서영현 외. 과태료 부과의 과속운전자 교통법규 위반 억제 효과분석. 대한교통학회 학술발표회, 2017. [DBpia](https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE07626403)
 5. 송정은 외. 킥보드 불법 주차 문제 해결을 위한 도착지 중심 스테이션 증설 알고리즘. 『한국컴퓨터정보학회논문지』 28(2), 2023. [KCI](https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART002934516)
-6. 이윤희·김수재·추상호. 공유 전동킥보드 불법 주차에 미치는 영향 요인 분석. 한국ITS학회 학술대회, 2022.
-7. Becker, G. (1968). Crime and Punishment: An Economic Approach. *Journal of Political Economy*, 76(2).
+6. 이윤희, 김수재, 추상호. 공유 전동킥보드 불법 주차에 미치는 영향 요인 분석. 한국ITS학회 학술대회, 2022.
 
 ### 7-3. 정부·지자체 자료
 
