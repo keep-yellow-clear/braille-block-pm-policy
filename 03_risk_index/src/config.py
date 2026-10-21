@@ -1,7 +1,7 @@
 """분석 설정값. 기간·가중치·절사·임계값·입력 파일 위치는 여기서만 바꿉니다."""
 from pathlib import Path
 
-# ── 입력 데이터: 저장소 공용 data/ 폴더 (04_risk_index/ 의 상위 폴더) ──
+# ── 입력 데이터: 저장소 공용 data/ 폴더 (03_risk_index/ 의 상위 폴더) ──
 DATA_DIR = Path(__file__).resolve().parents[2] / "data"
 RAW_DIR, PROCESSED_DIR = DATA_DIR / "raw", DATA_DIR / "processed"
 # 파일 이름 규칙 (glob). 여러 개가 맞으면 견인 현황은 모두 합치고, 나머지는 첫 번째 파일을 씀

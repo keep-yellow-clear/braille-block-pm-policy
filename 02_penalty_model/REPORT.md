@@ -163,10 +163,10 @@ $$
 ```bash
 # 저장소 최상위에서
 pip install -r requirements.txt
-python 03_penalty_model/src/deterrence_model.py
+python 02_penalty_model/src/deterrence_model.py
 ```
 
 - 입력: 없음 (모든 값은 코드 상단 `PARAMS`, `FINE`의 가정값). 원자료 `data/raw/`는 사용하지 않습니다.
-- 결과: `03_penalty_model/results/breakeven_table.csv`, `reward_table.csv`, `results/figures/fig1_breakeven.png`, `fig2_reward.png`
+- 결과: `02_penalty_model/results/breakeven_table.csv`, `reward_table.csv`, `results/figures/fig1_breakeven.png`, `fig2_reward.png`
 - `breakeven_table.csv` 컬럼: `detour_min`(우회 분), `B`(위반 이득, 원), `fine`(과태료, 원, 고정값), `p_star_pct`(손익분기 적발확률 %), `rho_star_pct`(필요 신고확률 %), `report_mult_vs_p0`(p\*가 현재 p0의 몇 배인지)
 - `reward_table.csv` 컬럼: `reward_ratio_pct`(포상금 비율 %), `reward_amount`(포상금 금액, 원), `r_min`(신고자 참여 최소조건, 원), `meets_participation`(참여조건 충족 여부), `margin`(포상금과 참여조건의 차이, 원)

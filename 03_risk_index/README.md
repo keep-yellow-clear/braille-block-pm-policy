@@ -31,10 +31,10 @@ CRITIC·엔트로피·시나리오 14개·가중치 5,000회 무작위 변동으
 
 ```bash
 pip install -r requirements.txt
-cd 04_risk_index
+cd 03_risk_index
 python run_all.py
 ```
-인자 없이 실행하면 **저장소 공용 `data/` 폴더**의 원자료를 찾아 읽고 `04_risk_index/results/`에 결과를 저장합니다 (Python 3.10+).
+인자 없이 실행하면 **저장소 공용 `data/` 폴더**의 원자료를 찾아 읽고 `03_risk_index/results/`에 결과를 저장합니다 (Python 3.10+).
 그림의 한글 폰트는 맑은 고딕 / Apple SD Gothic Neo / Noto Sans CJK / NanumGothic 중 설치된 것을 씁니다.
 
 ### 입력 데이터 (공용 폴더)

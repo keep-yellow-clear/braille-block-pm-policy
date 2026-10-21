@@ -13,14 +13,14 @@
   - 월×요일 예측값(비 없는 평일 기준)으로 집중 단속 캘린더 작성
 
 출력
-  00_hotspot/figures/cal1_요일별_평균.png
-  00_hotspot/figures/cal2_구별_운영률.png
-  00_hotspot/figures/cal3_일별_흐름_강수.png
-  00_hotspot/figures/cal4_기상요일_효과.png
-  00_hotspot/figures/cal5_집중단속_캘린더.png
-  00_hotspot/results/calendar_summary.xlsx
+  00_hotspot_parking/figures/cal1_요일별_평균.png
+  00_hotspot_parking/figures/cal2_구별_운영률.png
+  00_hotspot_parking/figures/cal3_일별_흐름_강수.png
+  00_hotspot_parking/figures/cal4_기상요일_효과.png
+  00_hotspot_parking/figures/cal5_집중단속_캘린더.png
+  00_hotspot_parking/results/calendar_summary.xlsx
 
-실행: python 00_hotspot/enforcement_calendar.py   (statsmodels, holidays 필요)
+실행: python 00_hotspot_parking/enforcement_calendar.py   (statsmodels, holidays 필요)
 """
 from pathlib import Path
 import numpy as np

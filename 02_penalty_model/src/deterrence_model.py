@@ -21,12 +21,12 @@ Becker(1968) 기대처벌 모형:  이용자는  B > p·F  이면 위반(점자�
 포상금 R은 과태료 F의 일정 비율(국내 신고포상금 관행 20~40%)로 정하고,
 신고자가 참여할 최소 조건(R·q >= 신고 1건의 시간비용)을 충족하는지 확인한다.
 
-모든 수치는 아래 PARAMS에서 바꿀 수 있는 '가정'이며, 근거는 03_penalty_model/REPORT.md 표에 기재.
+모든 수치는 아래 PARAMS에서 바꿀 수 있는 '가정'이며, 근거는 02_penalty_model/REPORT.md 표에 기재.
 원자료(data/raw/)는 사용하지 않는다. p0를 실제 값으로 바꿀 때 REPORT.md 6-1 참고.
 
-출력: 03_penalty_model/results/breakeven_table.csv   (우회 시나리오별 p*, ρ*)
-      03_penalty_model/results/reward_table.csv       (포상금 비율별 R, 참여조건 충족 여부)
-      03_penalty_model/results/figures/fig1_breakeven.png, fig2_reward.png
+출력: 02_penalty_model/results/breakeven_table.csv   (우회 시나리오별 p*, ρ*)
+      02_penalty_model/results/reward_table.csv       (포상금 비율별 R, 참여조건 충족 여부)
+      02_penalty_model/results/figures/fig1_breakeven.png, fig2_reward.png
 """
 import numpy as np
 import matplotlib
@@ -35,7 +35,7 @@ import matplotlib.pyplot as plt
 from matplotlib import font_manager as fm
 import csv, os
 
-ANALYSIS_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))   # 03_penalty_model/
+ANALYSIS_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))   # 02_penalty_model/
 OUT = os.path.join(ANALYSIS_DIR, "results")
 FIG = os.path.join(OUT, "figures")
 os.makedirs(FIG, exist_ok=True)

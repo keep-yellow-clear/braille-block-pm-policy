@@ -12,7 +12,7 @@ data/processed/주차구역_도로명주소_법정동.csv 로 저장한다. hots
   (같은 도로의 인접 건물번호 결과, 상세위치 건물명 등).
 - 결과 파일은 저장소에 함께 올려 두므로, 분석을 다시 돌릴 때 이 스크립트를 실행할 필요는 없다.
 
-실행: python 00_hotspot/lookup_parking_dong.py
+실행: python 00_hotspot_parking/lookup_parking_dong.py
 """
 import json, re, time, urllib.request
 import pandas as pd

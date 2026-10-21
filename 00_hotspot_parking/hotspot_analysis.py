@@ -13,16 +13,16 @@
   - 주차구역 공백: 자치구별 '점자블록 견인 비중 vs 주차구역 비중', 주차구역 0곳 법정동에 몰린 견인
 
 출력
-  00_hotspot/figures/fig1_자치구별_비교.png
-  00_hotspot/figures/fig2_법정동_Top20.png
-  00_hotspot/figures/fig3_반복지번_Top30_월별.png
-  00_hotspot/figures/fig4_지번_집중도.png
-  00_hotspot/figures/fig5_월별_추이.png
-  00_hotspot/figures/fig6_주차구역공백_자치구.png
-  00_hotspot/figures/fig7_주차구역공백_법정동.png
-  00_hotspot/results/hotspot_summary.xlsx        (그림에 쓴 표 전부)
+  00_hotspot_parking/figures/fig1_자치구별_비교.png
+  00_hotspot_parking/figures/fig2_법정동_Top20.png
+  00_hotspot_parking/figures/fig3_반복지번_Top30_월별.png
+  00_hotspot_parking/figures/fig4_지번_집중도.png
+  00_hotspot_parking/figures/fig5_월별_추이.png
+  00_hotspot_parking/figures/fig6_주차구역공백_자치구.png
+  00_hotspot_parking/figures/fig7_주차구역공백_법정동.png
+  00_hotspot_parking/results/hotspot_summary.xlsx        (그림에 쓴 표 전부)
 
-실행: python 00_hotspot/hotspot_analysis.py
+실행: python 00_hotspot_parking/hotspot_analysis.py
 """
 from pathlib import Path
 import numpy as np
@@ -33,7 +33,7 @@ import matplotlib.pyplot as plt
 from matplotlib import font_manager as fm, ticker
 
 # ---------------------------------------------------------------- 경로·설정
-HERE = Path(__file__).resolve().parent                 # 00_hotspot/
+HERE = Path(__file__).resolve().parent                 # 00_hotspot_parking/
 RAW_DIR = HERE.parent / "data" / "raw"
 FIG_DIR = HERE / "figures"
 RES_DIR = HERE / "results"
