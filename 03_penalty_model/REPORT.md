@@ -124,45 +124,47 @@ $$
 - **분모(전체 위반 건수)** 는 원자료에 없으므로 PM 업체 반납 데이터가 필요하다.
 - 값이 확보되면 모형 코드의 `PARAMS`만 고쳐 표와 그래프를 다시 뽑는다.
 
-## 7. 참고 문헌
+## 7. 참고 문헌 및 출처
 
-- 신고포상금제도의 특성이 정책성과에 미치는 영향, 한국정책학회보 29(1), 2020
-- 김도윤·나태준, 신고포상금제도를 통한 쓰레기 불법투기 위험 극복 효과의 분석, 한국위기관리논집 11(5), 2015
-- 성시경·이현국, 과태료 결정요인에 관한 탐색적 연구: 서울시 자치구 주정차위반 과태료, 사회과학연구 26(1), 2015
-- 서영현 외, 과태료 부과의 과속운전자 교통법규 위반 억제 효과분석, 대한교통학회 학술발표회, 2017
-- 송정은 외, 킥보드 불법 주차 문제 해결을 위한 도착지 중심 스테이션 증설 알고리즘, 한국컴퓨터정보학회논문지 28(2), 2023
-- 이윤희·김수재·추상호, 공유 전동킥보드 불법 주차에 미치는 영향 요인 분석, 한국ITS학회 학술대회, 2022
-- Becker, G. (1968), Crime and Punishment: An Economic Approach, *Journal of Political Economy* 76(2)
+### 7-1. 법령
 
-## 8. 출처
+- 교통약자의 이동편의 증진법 제33조②항. [유권해석 정리](https://www.nepla.ai/wiki/교통과-운송/기타/-유권해석-교통약자의-이동편의-증진법-제33조-과태료-jxm9lr7kg9pg)
+- 교통약자의 이동편의 증진법 시행령 별표3 제2호, 대통령령 제34871호(2024.9.15. 시행). [국가법령정보센터](https://www.law.go.kr/LSW/lsInfoP.do?urlMode=lsInfoP&lsId=010161)
 
-- [수원시 교통약자법 과태료 부과 가이드라인](https://www.suwon.go.kr/sw-www/deptHome/dep_traffic/traffic01/traffic01_11.jsp)
-- [YTN 수원시 점자블록 과태료](https://www.ytn.co.kr/_ln/0134_202607131221416701)
-- [교통약자법 제33조](https://www.nepla.ai/wiki/교통과-운송/기타/-유권해석-교통약자의-이동편의-증진법-제33조-과태료-jxm9lr7kg9pg)
-- [교통약자의 이동편의 증진법 시행령 (국가법령정보센터)](https://www.law.go.kr/LSW/lsInfoP.do?urlMode=lsInfoP&lsId=010161) — 별표3 제2호, 대통령령 제34871호(2024.9.15 시행)
-- [이투데이 여객시설·도로 장애인보도 방해 과태료 50만원](https://www.etoday.co.kr/news/view/2400413)
-- [에이블뉴스 점자블록 방해·훼손 과태료 50만원](https://www.ablenews.co.kr/news/articleView.html?idxno=214994)
-- [서울신문 PM 견인료](https://m.go.seoul.co.kr/news/2023/11/03/20231103500048)
-- [헤럴드경제 서울 견인 건수](https://mbiz.heraldcorp.com/article/10586607)
-- [매일신문 대구 견인료](https://www.imaeil.com/page/view/2026042714031777920)
-- [이코노미스트 셀프견인](https://economist.co.kr/article/view/ecn202502040065)
-- [파이낸셜뉴스 업계 반응](https://www.fnnews.com/news/202110221635106862)
-- [KCI 신고포상금제도 특성](https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART002576344)
-- [쓰레기투기 신고포상금 논문](https://journal.kci.go.kr/cemtp/archive/articlePdf?artiId=ART001997305)
-- [환경부 쓰레기투기 신고 증가](https://eiec.kdi.re.kr/epic_txt/2000/R0005083.HWP)
-- [수원시 무단투기 포상금](https://www.suwon.go.kr/sw-www/deptHome/dep_env/env_03/env_03_05.jsp)
-- [파주시 포상금](https://newsseoul.co.kr/news/view/1065572412311081)
-- [김제시 포상금](https://www.jjan.kr/article/20210426731146)
-- [연수구 포상금 기준](https://www.yeonsu.go.kr/main/part/clean/fine.asp)
-- [서울시 2004 포상금](https://mediahub.seoul.go.kr/archives/142534)
-- [과태료 결정요인 논문](https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE06094022)
-- [과속 과태료 억제효과 논문](https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE07626403)
-- [스테이션 증설 알고리즘 논문](https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART002934516)
-- [한국ITS학회 학술대회](https://www.earticle.net/Journal/Detail/601)
+### 7-2. 학술 논문
+
+1. 신고포상금제도의 특성이 정책성과에 미치는 영향. 『한국정책학회보』 29(1), 2020. [KCI](https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART002576344)
+2. 김도윤·나태준. 신고포상금제도를 통한 쓰레기 불법투기 위험 극복 효과의 분석. 『한국위기관리논집』 11(5), 2015. [KCI](https://journal.kci.go.kr/cemtp/archive/articlePdf?artiId=ART001997305)
+3. 성시경·이현국. 과태료 결정요인에 관한 탐색적 연구: 서울시 자치구 주정차위반 과태료. 『사회과학연구』 26(1), 2015. [DBpia](https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE06094022)
+4. 서영현 외. 과태료 부과의 과속운전자 교통법규 위반 억제 효과분석. 대한교통학회 학술발표회, 2017. [DBpia](https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE07626403)
+5. 송정은 외. 킥보드 불법 주차 문제 해결을 위한 도착지 중심 스테이션 증설 알고리즘. 『한국컴퓨터정보학회논문지』 28(2), 2023. [KCI](https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART002934516)
+6. 이윤희·김수재·추상호. 공유 전동킥보드 불법 주차에 미치는 영향 요인 분석. 한국ITS학회 학술대회, 2022.
+7. Becker, G. (1968). Crime and Punishment: An Economic Approach. *Journal of Political Economy*, 76(2).
+
+### 7-3. 정부·지자체 자료
+
+- 수원시. 교통약자법 과태료 부과 가이드라인. [수원시청](https://www.suwon.go.kr/sw-www/deptHome/dep_traffic/traffic01/traffic01_11.jsp)
+- 수원시. 쓰레기 무단투기 근절. [수원시청](https://www.suwon.go.kr/sw-www/deptHome/dep_env/env_03/env_03_05.jsp)
+- 인천광역시 연수구. 환경오염행위 등 신고포상금 지급 기준. [연수구청](https://www.yeonsu.go.kr/main/part/clean/fine.asp)
+- 환경부. 쓰레기 무단투기 등 신고자 포상금제 실시방안(2000). [KDI 경제정보센터 소장본](https://eiec.kdi.re.kr/epic_txt/2000/R0005083.HWP)
+
+### 7-4. 언론 기사
+
+- YTN. "[전국][경기] 수원시, 점자블록 침범하면 최고 50만 원 과태료." [기사](https://www.ytn.co.kr/_ln/0134_202607131221416701)
+- 이투데이. "여객시설ㆍ도로 장애인주차구역 방해, 도로 점자 훼손 시 과태료." [기사](https://www.etoday.co.kr/news/view/2400413)
+- 에이블뉴스. "시각장애인 점자블록 이용 방해·훼손시 '과태료 50만원'." [기사](https://www.ablenews.co.kr/news/articleView.html?idxno=214994)
+- 서울신문. PM 견인료 관련 보도. [기사](https://m.go.seoul.co.kr/news/2023/11/03/20231103500048)
+- 헤럴드경제. "하루 360대 견인 전동킥보드, 과태료 한 푼 안낸다." [기사](https://mbiz.heraldcorp.com/article/10586607)
+- 매일신문. 대구 견인료 관련 보도. [기사](https://www.imaeil.com/page/view/2026042714031777920)
+- 이코노미스트. 셀프견인 관련 보도. [기사](https://economist.co.kr/article/view/ecn202502040065)
+- 파이낸셜뉴스. 업계 반응 관련 보도. [기사](https://www.fnnews.com/news/202110221635106862)
+- 뉴스서울. 파주시 포상금 관련 보도. [기사](https://newsseoul.co.kr/news/view/1065572412311081)
+- 전북일보. 김제시 포상금 관련 보도. [기사](https://www.jjan.kr/article/20210426731146)
+- 서울시 미디어허브. 2004년 포상금 관련 보도. [기사](https://mediahub.seoul.go.kr/archives/142534)
 
 ---
 
-## 9. 재현 방법
+## 8. 재현 방법
 
 ```bash
 # 저장소 최상위에서
